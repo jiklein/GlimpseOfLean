@@ -58,16 +58,35 @@ variable {φ : Variable → Prop} {A B : Formula}
 @[simp] lemma isTrue_neg : IsTrue φ ~A ↔ ¬ IsTrue φ A := by simp [neg]
 
 @[simp] lemma isTrue_top : IsTrue φ ⊤ := by
-  sorry
+  simp [top]
 
 @[simp] lemma isTrue_equiv : IsTrue φ (A ⇔ B) ↔ (IsTrue φ A ↔ IsTrue φ B) := by
-  sorry
+  simp [equiv]
+  constructor
+  · (intros h
+     rcases h with ⟨h1, h2⟩
+     constructor
+     ·(intros h3
+       apply h1
+       apply h3)
+     ·(intros h3
+       apply h2
+       apply h3))
+  · (intros h
+     constructor
+     · (intros h1
+        apply h.1
+        apply h1)
+     · (intros h1
+        apply h.2
+        apply h1))
 
 /- As an exercise, let's prove (using classical logic) the double negation elimination principle.
   `by_contra h` might be useful to prove something by contradiction. -/
 
 example : Valid (~~A ⇔ A) := by
-  sorry
+  intro a b
+  simp
 
 /- We will frequently need to add an element to a set. This is done using
 the `insert` function: `insert A Γ` means `Γ ∪ {A}`. -/
@@ -199,4 +218,3 @@ theorem valid_of_provable (h : Provable A) : Valid A := by
 -/
 
 end ClassicalPropositionalLogic
-
